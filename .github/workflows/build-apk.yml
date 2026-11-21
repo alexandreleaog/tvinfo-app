@@ -1,3 +1,4 @@
+
 name: Gerar APK TVInfo
 
 on:
@@ -24,17 +25,19 @@ jobs:
 
       - name: Configurar Android SDK
         uses: android-actions/setup-android@v3
-        with:
-          packages: |
-            platforms;android-35
-            build-tools;35.0.0
+
+      - name: Aceitar licencas
+        run: yes | sdkmanager --licenses || true
+
+      - name: Instalar componentes Android
+        run: sdkmanager "platforms;android-35" "build-tools;35.0.0"
 
       - name: Configurar Gradle
         uses: gradle/actions/setup-gradle@v4
         with:
           gradle-version: '8.9'
 
-      - name: Extrair ZIP
+      - name: Extrair projeto ZIP
         run: unzip -o TVInfo_APK_Builder.zip
 
       - name: Compilar aplicativo
